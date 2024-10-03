@@ -5,8 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'mono': ['"Space Grotesk"', 'monospace'],
+        'body': ['"Afacad Flux"', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
-
