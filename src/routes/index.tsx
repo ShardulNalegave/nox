@@ -23,7 +23,7 @@ function Index() {
         <h1 className='text-4xl text-white font-mono'>New Entry</h1>
         <form onSubmit={e => onSubmit(e)}>
           <div className='h-[20px]'></div>
-          <input placeholder='Enter Roll No.' className='px-[25px] py-[15px] rounded-md w-full' />
+          <input placeholder='Enter ID' className='px-[25px] py-[15px] rounded-md w-full' />
           <div className='h-[15px]'></div>
           <div className='flex'>
             <input type='submit' className='py-[15px] px-[25px] rounded-md bg-blue-600 font-bold text-md' placeholder='Submit' />

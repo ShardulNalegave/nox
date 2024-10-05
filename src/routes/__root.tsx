@@ -11,8 +11,8 @@ function Root() {
     <>
       <div className='h-screen w-screen flex flex-col'>
         <TitleBar />
-        <div className='grow flex h-screen'>
-          <div className='grow h-screen'>
+        <div className='grow flex h-full'>
+          <div className='grow h-full'>
             <Outlet />
           </div>
           <div className="grow hidden lg:block" style={{
