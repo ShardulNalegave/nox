@@ -12,13 +12,16 @@
   "dependencies": {
     "@tanstack/react-router": "^1.58.16",
     "@tauri-apps/api": ">=2.0.0-rc.0",
+    "@tauri-apps/plugin-dialog": "~2.0.0-rc",
+    "@tauri-apps/plugin-fs": "~2.0.0-rc",
     "@tauri-apps/plugin-shell": ">=2.0.0-rc.0",
     "@tauri-apps/plugin-sql": "~2.0.0-rc",
-    "@tauri-apps/plugin-store": "2.0.0-rc.2",
     "lucide-react": "^0.447.0",
     "papaparse": "^5.4.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-datepicker": "^7.4.0",
+    "react-dom": "^18.2.0",
+    "write-excel-file": "^2.0.10"
   },
   "devDependencies": {
     "@tanstack/router-devtools": "^1.58.16",
