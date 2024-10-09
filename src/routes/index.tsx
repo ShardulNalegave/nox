@@ -1,6 +1,8 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Settings } from 'lucide-react';
 import { endSession, getSession, getSessions, getUser, newSession } from '../utils/sql';
+import { useState } from 'react';
+import { message } from '@tauri-apps/plugin-dialog';
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -8,6 +10,7 @@ export const Route = createFileRoute('/')({
 
 function Index() {
   const navigate = useNavigate();
+  const [lastEntry, setLastEntry] = useState('');
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
@@ -15,6 +18,8 @@ function Index() {
     const user = (await getUser(id))[0];
     if (!user) {
       console.log('No user with given ID!');
+      e.target['id_input'].value = '';
+      setLastEntry('No user with given ID!');
       return;
     }
 
@@ -36,6 +41,7 @@ function Index() {
         console.log('Couldn\'t create new session');
         console.log(e);
       }
+      setLastEntry(user.id);
       e.target['id_input'].value = '';
     }
   };
@@ -53,6 +59,10 @@ function Index() {
     }
 
     console.log('Ended all sessions');
+    await message('Ended day', {
+      title: 'Nox',
+      kind: 'info',
+    });
   };
 
   return (
@@ -62,7 +72,7 @@ function Index() {
         <h1 className='text-4xl text-white font-mono'>New Entry</h1>
         <form onSubmit={e => onSubmit(e)}>
           <div className='h-[20px]'></div>
-          <input name='id_input' placeholder='Enter ID' className='px-[25px] py-[15px] rounded-md w-full' />
+          <input autoFocus name='id_input' placeholder='Enter ID' className='px-[25px] py-[15px] rounded-md w-full' />
           <div className='h-[15px]'></div>
           <div className='flex'>
             <input type='submit' className='py-[15px] px-[25px] rounded-md bg-blue-600 font-bold text-md' placeholder='Submit' />
@@ -76,6 +86,8 @@ function Index() {
             Settings
           </button>
         </form>
+        <div className='h-[15px]'></div>
+        <p className='text-white'>{lastEntry}</p>
       </div>
       <div className="grow"></div>
     </div>

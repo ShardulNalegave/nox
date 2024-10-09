@@ -36,14 +36,14 @@ function Root() {
 
   return (
     <>
-      <div className='h-screen w-screen flex flex-col'>
+      <div className='h-screen w-screen flex flex-col overflow-hidden'>
         <TitleBar />
-        <div className='grow flex h-full'>
+        <div className='grow flex h-full overflow-hidden'>
           <div className='grow h-full'>
             <Outlet />
           </div>
-          <div className="grow hidden lg:block" style={{
-            backgroundImage: 'url(https://pict.edu/images/slider/home1/College%20Photo%2023%20Feb%202023.jpg)',
+          <div className="grow hidden lg:block overflow-hidden" style={{
+            backgroundImage: 'url(/home.jpg)',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
           }}></div>
