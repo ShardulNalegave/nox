@@ -23,7 +23,7 @@ function Settings() {
       worker: true,
       async complete(results, _) {
         if (!results.data || results.data.length === 0) return;
-        await loadStudentRecords(results.data as [string, string, string][]);
+        await loadStudentRecords(results.data as [string, string][]);
         await message('Updated student records', {
           title: 'Nox',
           kind: 'info',
@@ -35,7 +35,7 @@ function Settings() {
       worker: true,
       async complete(results, _) {
         if (!results.data || results.data.length === 0) return;
-        await loadStudentRecords(results.data as [string, string, string][]);
+        await loadStudentRecords(results.data as [string, string][]);
         await message('Updated faculty records', {
           title: 'Nox',
           kind: 'info',
@@ -85,13 +85,13 @@ function Settings() {
       <div>
         <h1>From Date</h1>
         <div className='h-[8px]'></div>
-        <DatePicker selected={fromDate} onChange={date => setFromDate(date || new Date())} className='text-zinc-950 px-[25px] py-[15px] rounded-md w-full' />
+        <DatePicker dateFormat='dd/MM/yyyy' selected={fromDate} onChange={date => setFromDate(date || new Date())} className='text-zinc-950 px-[25px] py-[15px] rounded-md w-full' />
       </div>
       <div className='h-[15px]'></div>
       <div>
         <h1>To Date</h1>
         <div className='h-[8px]'></div>
-        <DatePicker selected={toDate} onChange={date => setToDate(date || new Date())} className='text-zinc-950 px-[25px] py-[15px] rounded-md w-full' />
+        <DatePicker dateFormat='dd/MM/yyyy' selected={toDate} onChange={date => setToDate(date || new Date())} className='text-zinc-950 px-[25px] py-[15px] rounded-md w-full' />
       </div>
       <div className='h-[20px]'></div>
       <button type='button' className='py-[15px] px-[40px] bg-blue-600 text-zinc-950 rounded-md font-bold text-md' onClick={getReport}>

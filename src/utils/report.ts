@@ -3,25 +3,18 @@ import writeXlsxFile from "write-excel-file";
 const schema = [
   {
     column: 'Enter',
-    type: Date,
-    format: 'dd/mm/yyyy',
-    value: (record: any) => new Date(record.enter),
+    type: String,
+    value: (record: any) => new Date(record.enter).toLocaleString(),
   },
   {
     column: 'Exit',
-    type: Date,
-    format: 'dd/mm/yyyy',
-    value: (record: any) => new Date(record.exit),
+    type: String,
+    value: (record: any) => new Date(record.exit).toLocaleString(),
   },
   {
     column: 'Name',
     type: String,
     value: (record: any) => record.name,
-  },
-  {
-    column: 'Email',
-    type: String,
-    value: (record: any) => record.email,
   },
   {
     column: 'Kind',
@@ -35,7 +28,6 @@ export async function prepareExcelReport(records: {
   exit: number,
   id: string,
   name: string,
-  email: string,
   kind: string,
 }[]) {
   await writeXlsxFile(records, {

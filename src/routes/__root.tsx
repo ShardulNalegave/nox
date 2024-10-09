@@ -1,5 +1,5 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/router-devtools';
+// import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { TitleBar } from '../components/titlebar';
 import { useEffect } from 'react';
 import { endSession, getSessions } from '../utils/sql';
@@ -49,7 +49,7 @@ function Root() {
           }}></div>
         </div>
       </div>
-      <TanStackRouterDevtools />
+      {/* <TanStackRouterDevtools /> */}
     </>
   );
 }

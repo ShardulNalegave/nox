@@ -3,18 +3,18 @@ use tauri_plugin_sql::{Migration, MigrationKind};
 // ===================
 
 pub fn get_migrations() -> Vec<Migration> {
-    vec![Migration {
-        version: 1,
-        kind: MigrationKind::Up,
-        description: "create_dbs",
-        sql: "
+  vec![
+    Migration {
+      version: 1,
+      kind: MigrationKind::Up,
+      description: "create_dbs",
+      sql: "
         PRAGMA foreign_keys = ON;
 
         CREATE TABLE IF NOT EXISTS users (
           id TEXT UNIQUE NOT NULL PRIMARY KEY,
           kind TEXT CHECK (kind IN ('student', 'faculty')),
-          name TEXT NOT NULL,
-          email TEXT NOT NULL
+          name TEXT NOT NULL
         );
 
         CREATE TABLE IF NOT EXISTS sessions (
@@ -30,5 +30,6 @@ pub fn get_migrations() -> Vec<Migration> {
           FOREIGN KEY (uid) REFERENCES users(id)
         );
       ",
-    }]
+    },
+  ]
 }

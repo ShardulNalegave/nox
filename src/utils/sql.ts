@@ -2,12 +2,12 @@ import Database from '@tauri-apps/plugin-sql';
 
 export const SQLite = await Database.load('sqlite:nox.db');
 
-export async function loadStudentRecords(records: [string, string, string][]) {
+export async function loadStudentRecords(records: [string, string][]) {
   for (let i = 0; i < records.length; i++) {
     const rec = records[i];
     try {
       await SQLite.execute(`
-        INSERT INTO users (id, kind, name, email) VALUES ($1, 'student', $2, $3);
+        INSERT INTO users (id, kind, name) VALUES ($1, 'student', $2);
       `, rec);
     } catch (e) {
       console.log(e);
@@ -18,12 +18,12 @@ export async function loadStudentRecords(records: [string, string, string][]) {
   console.log('Updated');
 }
 
-export async function loadFacultyRecords(records: [string, string, string][]) {
+export async function loadFacultyRecords(records: [string, string][]) {
   for (let i = 0; i < records.length; i++) {
     const rec = records[i];
     try {
       await SQLite.execute(`
-        INSERT INTO users (id, kind, name, email) VALUES ($1, 'faculty', $2, $3);
+        INSERT INTO users (id, kind, name, email) VALUES ($1, 'faculty', $2);
       `, rec);
     } catch (e) {
       console.log(e);
@@ -60,11 +60,10 @@ export async function getRecords(from: number, to: number): Promise<{
   exit: number,
   id: string,
   name: string,
-  email: string,
   kind: string,
 }[]> {
   return await SQLite.select(`
-    SELECT R.enter, R.exit, U.id, U.name, U.email, U.kind FROM records R INNER JOIN users U ON R.uid = U.id
+    SELECT R.enter, R.exit, U.id, U.name, U.kind FROM records R INNER JOIN users U ON R.uid = U.id
     WHERE enter < $1 AND enter > $2;
   `, [to, from]);
 }
