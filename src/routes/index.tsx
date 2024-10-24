@@ -14,7 +14,9 @@ function Index() {
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    const id = e.target['id_input'].value;
+    let id: string = e.target['id_input'].value;
+    id = id.replace(/^\*+|\*+$/gm, '');
+    console.log(id);
     const user = (await getUser(id))[0];
     if (!user) {
       console.log('No user with given ID!');

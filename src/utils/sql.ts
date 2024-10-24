@@ -23,7 +23,7 @@ export async function loadFacultyRecords(records: [string, string][]) {
     const rec = records[i];
     try {
       await SQLite.execute(`
-        INSERT INTO users (id, kind, name, email) VALUES ($1, 'faculty', $2);
+        INSERT INTO users (id, kind, name) VALUES ($1, 'faculty', $2);
       `, rec);
     } catch (e) {
       console.log(e);
@@ -66,4 +66,14 @@ export async function getRecords(from: number, to: number): Promise<{
     SELECT R.enter, R.exit, U.id, U.name, U.kind FROM records R INNER JOIN users U ON R.uid = U.id
     WHERE enter < $1 AND enter > $2;
   `, [to, from]);
+}
+
+export interface UserRecord {
+  id: string,
+  kind: string,
+  name: string,
+}
+
+export async function getUserRecords(): Promise<UserRecord[]> {
+  return await SQLite.select(`SELECT id, name, kind FROM users`);
 }

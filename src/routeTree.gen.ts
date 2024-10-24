@@ -12,16 +12,25 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SettingsImport } from './routes/settings'
+import { Route as CurrentRecordsImport } from './routes/currentRecords'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
 
 const SettingsRoute = SettingsImport.update({
+  id: '/settings',
   path: '/settings',
   getParentRoute: () => rootRoute,
 } as any)
 
+const CurrentRecordsRoute = CurrentRecordsImport.update({
+  id: '/currentRecords',
+  path: '/currentRecords',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
+  id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
@@ -35,6 +44,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/currentRecords': {
+      id: '/currentRecords'
+      path: '/currentRecords'
+      fullPath: '/currentRecords'
+      preLoaderRoute: typeof CurrentRecordsImport
       parentRoute: typeof rootRoute
     }
     '/settings': {
@@ -51,36 +67,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/currentRecords': typeof CurrentRecordsRoute
   '/settings': typeof SettingsRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/currentRecords': typeof CurrentRecordsRoute
   '/settings': typeof SettingsRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/currentRecords': typeof CurrentRecordsRoute
   '/settings': typeof SettingsRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/settings'
+  fullPaths: '/' | '/currentRecords' | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/settings'
-  id: '__root__' | '/' | '/settings'
+  to: '/' | '/currentRecords' | '/settings'
+  id: '__root__' | '/' | '/currentRecords' | '/settings'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CurrentRecordsRoute: typeof CurrentRecordsRoute
   SettingsRoute: typeof SettingsRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CurrentRecordsRoute: CurrentRecordsRoute,
   SettingsRoute: SettingsRoute,
 }
 
@@ -97,11 +118,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/currentRecords",
         "/settings"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/currentRecords": {
+      "filePath": "currentRecords.tsx"
     },
     "/settings": {
       "filePath": "settings.tsx"

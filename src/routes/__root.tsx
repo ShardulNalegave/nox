@@ -1,4 +1,4 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router';
+import { createRootRoute, Outlet, useLocation } from '@tanstack/react-router';
 // import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { TitleBar } from '../components/titlebar';
 import { useEffect } from 'react';
@@ -9,6 +9,8 @@ export const Route = createRootRoute({
 });
 
 function Root() {
+  const location = useLocation();
+
   useEffect(() => {
     (async () => {
       const lastDay: number | null = parseInt(localStorage.getItem('last-day') || '0');
@@ -42,11 +44,14 @@ function Root() {
           <div className='grow h-full'>
             <Outlet />
           </div>
-          <div className="grow hidden lg:block overflow-hidden" style={{
-            backgroundImage: 'url(/home.jpg)',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-          }}></div>
+          {
+            location.pathname != '/currentRecords' ?
+            <div className="grow hidden lg:block overflow-hidden" style={{
+              backgroundImage: 'url(/home.jpg)',
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+            }}></div> : <></>
+          }
         </div>
       </div>
       {/* <TanStackRouterDevtools /> */}

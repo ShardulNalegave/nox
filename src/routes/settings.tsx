@@ -1,8 +1,8 @@
 import { message } from '@tauri-apps/plugin-dialog';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { ArrowLeft, Edit, FileSpreadsheet } from 'lucide-react';
+import { ArrowLeft, Edit, FileSpreadsheet, FileSpreadsheetIcon } from 'lucide-react';
 import PapaParse from 'papaparse';
-import { getRecords, loadStudentRecords } from '../utils/sql';
+import { getRecords, loadFacultyRecords, loadStudentRecords } from '../utils/sql';
 import { useState } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from 'react-datepicker';
@@ -35,7 +35,7 @@ function Settings() {
       worker: true,
       async complete(results, _) {
         if (!results.data || results.data.length === 0) return;
-        await loadStudentRecords(results.data as [string, string][]);
+        await loadFacultyRecords(results.data as [string, string][]);
         await message('Updated faculty records', {
           title: 'Nox',
           kind: 'info',
@@ -73,10 +73,17 @@ function Settings() {
         <h1>Faculty Data</h1>
         <input name='faculty_data' placeholder='Select faculty data' type='file' className='px-[25px] py-[15px] rounded-md w-full' />
         <div className='h-[20px]'></div>
-        <button type='submit' className='py-[15px] px-[40px] bg-blue-600 text-zinc-950 rounded-md font-bold text-md'>
+        <button type='submit' className='mr-[5px] py-[15px] px-[40px] bg-blue-600 text-zinc-950 rounded-md font-bold text-md'>
           <Edit className='inline-block' />
           <div className='w-[8px] inline-block'></div>
           Update
+        </button>
+        <button type='button' className='ml-[5px] py-[15px] px-[40px] bg-stone-100 text-zinc-950 rounded-md font-bold text-md' onClick={() => navigate({
+          to: '/currentRecords',
+        })}>
+          <FileSpreadsheetIcon className='inline-block' />
+          <div className='w-[8px] inline-block'></div>
+          View Current Records
         </button>
       </form>
       <div className='h-[25px]'></div>
