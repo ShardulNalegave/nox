@@ -1,5 +1,5 @@
 import WindowControls from '@/components/windowControls';
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
+import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
 export const Route = createRootRoute({
@@ -12,17 +12,8 @@ function Root() {
   root.classList.add('light');
 
   return (
-    <div className='select-none'>
+    <div className='select-none h-screen max-h-screen overflow-y-hidden'>
       <WindowControls />
-      <div className="p-2 flex gap-2">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>{' '}
-        <Link to="/about" className="[&.active]:font-bold">
-          About
-        </Link>
-      </div>
-      <hr />
       <Outlet />
       <TanStackRouterDevtools />
     </div>
