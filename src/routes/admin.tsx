@@ -15,10 +15,10 @@ import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
 import { ChevronLeftIcon, ContactIcon, LayoutDashboardIcon, SettingsIcon } from 'lucide-react';
 
 export const Route = createRootRoute({
-  component: Root,
+  component: AdminRoot,
 })
 
-function Root() {
+function AdminRoot() {
   const root = window.document.documentElement;
   root.classList.remove('light', 'dark');
   root.classList.add('light');

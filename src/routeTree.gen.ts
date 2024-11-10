@@ -15,7 +15,8 @@ import { Route as AdminImport } from './routes/admin'
 import { Route as IndexImport } from './routes/index'
 import { Route as AdminIndexImport } from './routes/admin/index'
 import { Route as AdminSettingsImport } from './routes/admin/settings'
-import { Route as AdminPeopleImport } from './routes/admin/people'
+import { Route as AdminPeopleIndexImport } from './routes/admin/people/index'
+import { Route as AdminPeopleCategoryIDImport } from './routes/admin/people/$categoryID'
 
 // Create/Update Routes
 
@@ -43,9 +44,15 @@ const AdminSettingsRoute = AdminSettingsImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 
-const AdminPeopleRoute = AdminPeopleImport.update({
-  id: '/people',
-  path: '/people',
+const AdminPeopleIndexRoute = AdminPeopleIndexImport.update({
+  id: '/people/',
+  path: '/people/',
+  getParentRoute: () => AdminRoute,
+} as any)
+
+const AdminPeopleCategoryIDRoute = AdminPeopleCategoryIDImport.update({
+  id: '/people/$categoryID',
+  path: '/people/$categoryID',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -67,13 +74,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminImport
       parentRoute: typeof rootRoute
     }
-    '/admin/people': {
-      id: '/admin/people'
-      path: '/people'
-      fullPath: '/admin/people'
-      preLoaderRoute: typeof AdminPeopleImport
-      parentRoute: typeof AdminImport
-    }
     '/admin/settings': {
       id: '/admin/settings'
       path: '/settings'
@@ -88,21 +88,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexImport
       parentRoute: typeof AdminImport
     }
+    '/admin/people/$categoryID': {
+      id: '/admin/people/$categoryID'
+      path: '/people/$categoryID'
+      fullPath: '/admin/people/$categoryID'
+      preLoaderRoute: typeof AdminPeopleCategoryIDImport
+      parentRoute: typeof AdminImport
+    }
+    '/admin/people/': {
+      id: '/admin/people/'
+      path: '/people'
+      fullPath: '/admin/people'
+      preLoaderRoute: typeof AdminPeopleIndexImport
+      parentRoute: typeof AdminImport
+    }
   }
 }
 
 // Create and export the route tree
 
 interface AdminRouteChildren {
-  AdminPeopleRoute: typeof AdminPeopleRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminPeopleCategoryIDRoute: typeof AdminPeopleCategoryIDRoute
+  AdminPeopleIndexRoute: typeof AdminPeopleIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
-  AdminPeopleRoute: AdminPeopleRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminPeopleCategoryIDRoute: AdminPeopleCategoryIDRoute,
+  AdminPeopleIndexRoute: AdminPeopleIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
@@ -110,39 +126,54 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/admin/people': typeof AdminPeopleRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/people/$categoryID': typeof AdminPeopleCategoryIDRoute
+  '/admin/people': typeof AdminPeopleIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin/people': typeof AdminPeopleRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/people/$categoryID': typeof AdminPeopleCategoryIDRoute
+  '/admin/people': typeof AdminPeopleIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/admin/people': typeof AdminPeopleRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/people/$categoryID': typeof AdminPeopleCategoryIDRoute
+  '/admin/people/': typeof AdminPeopleIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/admin/people' | '/admin/settings' | '/admin/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/admin/settings'
+    | '/admin/'
+    | '/admin/people/$categoryID'
+    | '/admin/people'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin/people' | '/admin/settings' | '/admin'
+  to:
+    | '/'
+    | '/admin/settings'
+    | '/admin'
+    | '/admin/people/$categoryID'
+    | '/admin/people'
   id:
     | '__root__'
     | '/'
     | '/admin'
-    | '/admin/people'
     | '/admin/settings'
     | '/admin/'
+    | '/admin/people/$categoryID'
+    | '/admin/people/'
   fileRoutesById: FileRoutesById
 }
 
@@ -176,14 +207,11 @@ export const routeTree = rootRoute
     "/admin": {
       "filePath": "admin.tsx",
       "children": [
-        "/admin/people",
         "/admin/settings",
-        "/admin/"
+        "/admin/",
+        "/admin/people/$categoryID",
+        "/admin/people/"
       ]
-    },
-    "/admin/people": {
-      "filePath": "admin/people.tsx",
-      "parent": "/admin"
     },
     "/admin/settings": {
       "filePath": "admin/settings.tsx",
@@ -191,6 +219,14 @@ export const routeTree = rootRoute
     },
     "/admin/": {
       "filePath": "admin/index.tsx",
+      "parent": "/admin"
+    },
+    "/admin/people/$categoryID": {
+      "filePath": "admin/people/$categoryID.tsx",
+      "parent": "/admin"
+    },
+    "/admin/people/": {
+      "filePath": "admin/people/index.tsx",
       "parent": "/admin"
     }
   }
