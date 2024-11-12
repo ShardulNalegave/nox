@@ -12,9 +12,11 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AdminImport } from './routes/admin'
+import { Route as Import } from './routes/*'
 import { Route as IndexImport } from './routes/index'
 import { Route as AdminIndexImport } from './routes/admin/index'
 import { Route as AdminSettingsImport } from './routes/admin/settings'
+import { Route as AdminReportsIndexImport } from './routes/admin/reports/index'
 import { Route as AdminPeopleIndexImport } from './routes/admin/people/index'
 import { Route as AdminPeopleCategoryIDImport } from './routes/admin/people/$categoryID'
 
@@ -23,6 +25,12 @@ import { Route as AdminPeopleCategoryIDImport } from './routes/admin/people/$cat
 const AdminRoute = AdminImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const Route = Import.update({
+  id: '/*',
+  path: '/*',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -41,6 +49,12 @@ const AdminIndexRoute = AdminIndexImport.update({
 const AdminSettingsRoute = AdminSettingsImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+
+const AdminReportsIndexRoute = AdminReportsIndexImport.update({
+  id: '/reports/',
+  path: '/reports/',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -65,6 +79,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/*': {
+      id: '/*'
+      path: '/*'
+      fullPath: '/*'
+      preLoaderRoute: typeof Import
       parentRoute: typeof rootRoute
     }
     '/admin': {
@@ -102,6 +123,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPeopleIndexImport
       parentRoute: typeof AdminImport
     }
+    '/admin/reports/': {
+      id: '/admin/reports/'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsIndexImport
+      parentRoute: typeof AdminImport
+    }
   }
 }
 
@@ -112,6 +140,7 @@ interface AdminRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminPeopleCategoryIDRoute: typeof AdminPeopleCategoryIDRoute
   AdminPeopleIndexRoute: typeof AdminPeopleIndexRoute
+  AdminReportsIndexRoute: typeof AdminReportsIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -119,71 +148,86 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminPeopleCategoryIDRoute: AdminPeopleCategoryIDRoute,
   AdminPeopleIndexRoute: AdminPeopleIndexRoute,
+  AdminReportsIndexRoute: AdminReportsIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/*': typeof Route
   '/admin': typeof AdminRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/people/$categoryID': typeof AdminPeopleCategoryIDRoute
   '/admin/people': typeof AdminPeopleIndexRoute
+  '/admin/reports': typeof AdminReportsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/*': typeof Route
   '/admin/settings': typeof AdminSettingsRoute
   '/admin': typeof AdminIndexRoute
   '/admin/people/$categoryID': typeof AdminPeopleCategoryIDRoute
   '/admin/people': typeof AdminPeopleIndexRoute
+  '/admin/reports': typeof AdminReportsIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/*': typeof Route
   '/admin': typeof AdminRouteWithChildren
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/people/$categoryID': typeof AdminPeopleCategoryIDRoute
   '/admin/people/': typeof AdminPeopleIndexRoute
+  '/admin/reports/': typeof AdminReportsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/*'
     | '/admin'
     | '/admin/settings'
     | '/admin/'
     | '/admin/people/$categoryID'
     | '/admin/people'
+    | '/admin/reports'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/*'
     | '/admin/settings'
     | '/admin'
     | '/admin/people/$categoryID'
     | '/admin/people'
+    | '/admin/reports'
   id:
     | '__root__'
     | '/'
+    | '/*'
     | '/admin'
     | '/admin/settings'
     | '/admin/'
     | '/admin/people/$categoryID'
     | '/admin/people/'
+    | '/admin/reports/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  Route: typeof Route
   AdminRoute: typeof AdminRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  Route: Route,
   AdminRoute: AdminRouteWithChildren,
 }
 
@@ -198,11 +242,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/*",
         "/admin"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/*": {
+      "filePath": "*.tsx"
     },
     "/admin": {
       "filePath": "admin.tsx",
@@ -210,7 +258,8 @@ export const routeTree = rootRoute
         "/admin/settings",
         "/admin/",
         "/admin/people/$categoryID",
-        "/admin/people/"
+        "/admin/people/",
+        "/admin/reports/"
       ]
     },
     "/admin/settings": {
@@ -227,6 +276,10 @@ export const routeTree = rootRoute
     },
     "/admin/people/": {
       "filePath": "admin/people/index.tsx",
+      "parent": "/admin"
+    },
+    "/admin/reports/": {
+      "filePath": "admin/reports/index.tsx",
       "parent": "/admin"
     }
   }

@@ -59,7 +59,7 @@ function People() {
         </Dialog>
       </div>
       <div className="h-[30px]"></div>
-      <div className="grid gap-4 grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-lg shadow-sm p-[25px] border-zinc-200 border-solid border-[1px]">
           <h1 className="text-3xl font-bold font-mono">Students</h1>
           <div className="h-[3px]"></div>

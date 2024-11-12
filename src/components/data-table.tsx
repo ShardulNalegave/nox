@@ -23,25 +23,23 @@ import { Input } from '@/components/ui/input';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[],
   data: TData[],
-  filterBy: string,
+  filterableCols: string[],
 };
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  filterBy,
+  filterableCols,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = useState({})
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
  
   const table = useReactTable({
     data,
@@ -60,18 +58,29 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       rowSelection,
     },
-  })
+  });
+
+  const [filterBy, setFilterBy] = useState(filterableCols[0]);
  
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-2">
+        <Select onValueChange={setFilterBy} value={filterBy}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Filter by" />
+          </SelectTrigger>
+          <SelectContent>
+            {filterableCols.map(col => (
+              <SelectItem key={col} value={col}>{col}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <Input
           placeholder="Filter"
           value={(table.getColumn(filterBy)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn(filterBy)?.setFilterValue(event.target.value)
           }
-          className="mr-[15px]"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

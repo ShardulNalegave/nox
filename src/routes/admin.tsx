@@ -12,7 +12,7 @@ import {
   SidebarSeparator,
 } from '@/components/ui/sidebar';
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
-import { ChevronLeftIcon, ContactIcon, LayoutDashboardIcon, SettingsIcon } from 'lucide-react';
+import { ChevronLeftIcon, ContactIcon, LayoutDashboardIcon, SettingsIcon, TableIcon } from 'lucide-react';
 
 export const Route = createRootRoute({
   component: AdminRoot,
@@ -44,6 +44,14 @@ function AdminRoot() {
                     <Link to='/admin/people'>
                       <ContactIcon/>
                       People
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link to='/admin/reports'>
+                      <TableIcon/>
+                      Reports
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

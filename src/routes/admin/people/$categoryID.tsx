@@ -171,7 +171,7 @@ function PeopleCategory() {
           </Tabs>
         </DialogContent>
       </Dialog>
-      <DataTable columns={columns} data={data} filterBy='email' />
+      <DataTable columns={columns} data={data} filterableCols={['id', 'name', 'email', 'phone']} />
     </div>
   );
 }
