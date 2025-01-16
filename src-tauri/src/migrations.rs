@@ -14,7 +14,8 @@ pub fn get_migrations() -> Vec<Migration> {
         CREATE TABLE IF NOT EXISTS users (
           id TEXT UNIQUE NOT NULL PRIMARY KEY,
           kind TEXT CHECK (kind IN ('student', 'faculty')),
-          name TEXT NOT NULL
+          name TEXT NOT NULL,
+          roll_no TEXT NULL
         );
 
         CREATE TABLE IF NOT EXISTS sessions (

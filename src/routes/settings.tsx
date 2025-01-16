@@ -23,7 +23,7 @@ function Settings() {
       worker: true,
       async complete(results, _) {
         if (!results.data || results.data.length === 0) return;
-        await loadStudentRecords(results.data as [string, string][]);
+        await loadStudentRecords(results.data as [string, string, string][]);
         await message('Updated student records', {
           title: 'Nox',
           kind: 'info',

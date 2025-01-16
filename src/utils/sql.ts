@@ -2,12 +2,12 @@ import Database from '@tauri-apps/plugin-sql';
 
 export const SQLite = await Database.load('sqlite:nox.db');
 
-export async function loadStudentRecords(records: [string, string][]) {
+export async function loadStudentRecords(records: [string, string, string][]) {
   for (let i = 0; i < records.length; i++) {
     const rec = records[i];
     try {
       await SQLite.execute(`
-        INSERT INTO users (id, kind, name) VALUES ($1, 'student', $2);
+        INSERT INTO users (id, kind, roll_no, name) VALUES ($1, 'student', $2, $3);
       `, rec);
     } catch (e) {
       console.log(e);
@@ -61,9 +61,10 @@ export async function getRecords(from: number, to: number): Promise<{
   id: string,
   name: string,
   kind: string,
+  roll_no: string,
 }[]> {
   return await SQLite.select(`
-    SELECT R.enter, R.exit, U.id, U.name, U.kind FROM records R INNER JOIN users U ON R.uid = U.id
+    SELECT R.enter, R.exit, U.id, U.name, U.kind, U.roll_no FROM records R INNER JOIN users U ON R.uid = U.id
     WHERE enter < $1 AND enter > $2;
   `, [to, from]);
 }
@@ -72,8 +73,9 @@ export interface UserRecord {
   id: string,
   kind: string,
   name: string,
+  roll_no: string | null,
 }
 
 export async function getUserRecords(): Promise<UserRecord[]> {
-  return await SQLite.select(`SELECT id, name, kind FROM users`);
+  return await SQLite.select(`SELECT id, name, kind, roll_no FROM users`);
 }

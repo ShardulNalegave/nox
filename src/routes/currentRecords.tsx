@@ -15,6 +15,7 @@ const headerRow: Row = {
     { type: 'header', text: 'ID' },
     { type: 'header', text: 'Name' },
     { type: 'header', text: 'Kind' },
+    { type: 'header', text: 'Roll No.' },
   ],
 };
 
@@ -22,6 +23,7 @@ const getColumns = (): Column[] => [
   { columnId: "id", width: 350 },
   { columnId: "name", width: 350 },
   { columnId: "kind", width: 350 },
+  { columnId: "roll_no", width: 350 },
 ];
 
 
@@ -33,6 +35,7 @@ const getRows = (recs: UserRecord[]): Row[] => [
       { type: 'text', text: rec.id },
       { type: 'text', text: rec.name },
       { type: 'text', text: rec.kind },
+      { type: 'text', text: rec.roll_no || '' },
     ],
   })),
 ]

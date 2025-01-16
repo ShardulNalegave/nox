@@ -21,6 +21,16 @@ const schema = [
     type: String,
     value: (record: any) => record.kind,
   },
+  {
+    column: 'Roll No',
+    type: String,
+    value: (record: any) => record.roll_no,
+  },
+  {
+    column: 'ID',
+    type: String,
+    value: (record: any) => record.id,
+  }
 ];
 
 export async function prepareExcelReport(records: {
@@ -29,6 +39,7 @@ export async function prepareExcelReport(records: {
   id: string,
   name: string,
   kind: string,
+  roll_no: string,
 }[]) {
   await writeXlsxFile(records, {
     schema,
